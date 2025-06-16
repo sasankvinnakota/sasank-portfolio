@@ -1,3 +1,4 @@
+// Toggle the hamburger menu
 function toggleMenu() {
   const menu = document.querySelector(".menu-links");
   const icon = document.querySelector(".hamburger-icon");
@@ -8,35 +9,39 @@ function toggleMenu() {
 // Disable Right-Click
 document.addEventListener("contextmenu", (event) => event.preventDefault());
 
-// Disable Common Developer Tools Shortcuts
+// Disable basic developer shortcuts (optional)
 document.addEventListener("keydown", (event) => {
   if (
-    event.key === "F12" || 
-    (event.ctrlKey && event.shiftKey && (event.key === "I" || event.key === "J" || event.key === "C")) ||
+    event.key === "F12" ||
+    (event.ctrlKey && event.shiftKey && ["I", "J", "C"].includes(event.key)) ||
     (event.ctrlKey && event.key === "U")
   ) {
     event.preventDefault();
   }
 });
 
-// Detect DevTools Opened
+
+// ⚠️ Optional: DevTools detection — comment out to avoid breaking normal use
+
 const detectDevTools = () => {
-  if (window.outerHeight - window.innerHeight > 160 || window.outerWidth - window.innerWidth > 160) {
-    alert("Developer tools are disabled on this website.");
-    window.location.href = "about:blank"; // Redirect user
+  const threshold = 160;
+  if (
+    window.outerHeight - window.innerHeight > threshold ||
+    window.outerWidth - window.innerWidth > threshold
+  ) {
+    alert("Developer tools are open.");
+    // window.location.href = "about:blank"; // 🚫 Avoid this — it breaks usability
   }
 };
 
-// Run DevTools Detection Every Second
 setInterval(detectDevTools, 1000);
 
-// Prevent Console Access Using a Bait Element
+// Prevent console access using bait element (optional)
 setInterval(() => {
-  const element = new Image();
-  element.__defineGetter__("id", () => {
-    alert("Developer tools are disabled!");
-    window.location.href = "about:blank";
+  const bait = new Image();
+  bait.__defineGetter__("id", () => {
+    alert("Developer tools are not allowed.");
+    // window.location.href = "about:blank";
   });
-  console.log("%c", element);
+  console.log("%c", bait);
 }, 1000);
-
